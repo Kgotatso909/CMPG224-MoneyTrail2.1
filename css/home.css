@@ -13,8 +13,109 @@ body {
     height: 100%;
     padding-top: 80px; /* Add padding for the fixed header */
 }
+            nav {
+            position:fixed;
+            top:0;
+    width: 100%;
+    height: 48.5px;
+    font-family:  Calibri, Arial, serif;
+    background-color: #474A46;
+}
 
- #menu {
+.gradient_shadow {
+    position: absolute;
+    top: 56.5px;
+    width: 100%;
+    height: 6px;
+    background-size: 100% 6px;
+    background-repeat: no-repeat;
+}
+
+
+.first_dropmenu, .sec_dropmenu {
+    float: left;
+    height: 48.5px;
+    overflow: hidden;
+    transition: height 0.8s ease-out;
+}
+
+.first_dropmenu {
+    width: 130px;
+}
+
+.sec_dropmenu {
+    transition: height 0.3s ease-in;
+}
+
+.li_item {
+    width: 0;
+    transition: width 0.7s ease-in;
+    transition-delay: 0.4s;
+}
+
+.first_dropmenu:hover, .sec_dropmenu:hover {
+    height: 240px;
+}
+
+.sec_dropmenu:hover .li_item {
+    width: 180px;
+}
+
+.first_dropmenu a, .sec_dropmenu a {
+    text-decoration: none;
+    color: white;
+    display: block;
+    height: 48.5px;
+    line-height: 48.5px;
+    text-align: center;
+    padding: 0 15px;
+    background-color: #474A46;
+    background-position: 50% 0;
+    font-size: 0.95em;
+}
+
+.first_dropmenu a:hover, .sec_dropmenu a:hover {
+    transition: background 0.4s linear, color 0.5s linear, font-weight 0.3s ease-in;
+    background: radial-gradient(50% 0, rgba(0,0,0,.5), transparent 70%), radial-gradient(50% 0, rgba(0,0,0,.5), transparent 70%), #3BD1AB;
+    background: -webkit-radial-gradient(50% 0, rgba(0,0,0,.5), transparent 70%), -webkit-radial-gradient(50% 0, rgba(0,0,0,.5), transparent 70%), #3BD1AB;
+    background: -webkit-gradient(50% 0, rgba(0,0,0,.5), transparent 70%), -webkit-gradient(50% 0, rgba(0,0,0,.5), transparent 70%), #3BD1AB;
+    background: -moz-radial-gradient(50% 0, rgba(0,0,0,.5), transparent 70%), -moz-radial-gradient(50% 0, rgba(0,0,0,.5), transparent 70%), #3BD1AB;
+    background: -o-radial-gradient(50% 0, rgba(0,0,0,.5), transparent 70%), -o-radial-gradient(50% 0, rgba(0,0,0,.5), transparent 70%), #3BD1AB;
+    background-size: 55% 6px, 100% 6px, cover;
+    background-position: 50% 75%, 0 0, 0 0;
+    background-repeat: no-repeat;
+    color: #474A46;
+    font-weight: bold;
+}
+.container {
+margin-top:30px;
+  padding:20px;
+}
+.section { 
+     background-color: #fff; 
+     padding: 20px; 
+     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+     border-radius: 5px; 
+     display: flex; 
+     flex-direction: column; 
+     padding: 25px; 
+     text-align: center; 
+ } 
+ .rectangle-box { 
+             display: inline-block; 
+             background-color: #f0f0f0; 
+             border: 2px solid blue; 
+             color:blue;
+             font-weight:bold;
+             padding: 20px; 
+             cursor: pointer;
+             border-radius:12px; 
+         } 
+         #accounts {
+           display: flex;
+           flex-direction: column;
+         }
+  #menu {
             position: fixed;
             top: 0px;
             left: 0px;
