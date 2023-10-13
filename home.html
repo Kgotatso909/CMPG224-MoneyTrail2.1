@@ -3,253 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Navigation bar with dropdown</title>
-    <style type="text/css">
-      body {
-      margin: 0;
-      }
-      
-      nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      height: 48.5px;
-      font-family: Calibri, Arial, serif;
-      background-color: #474A46;
-      }
-      
-      .gradient_shadow {
-      position: absolute;
-      top: 56.5px;
-      width: 100%;
-      height: 6px;
-      background-size: 100% 6px;
-      background-repeat: no-repeat;
-      }
-      
-      .first_dropmenu, .sec_dropmenu {
-      float: left;
-      height: 48.5px;
-      overflow: hidden;
-      transition: height 0.8s ease-out;
-      }
-      
-      .first_dropmenu {
-      width: 130px;
-      }
-      
-      .sec_dropmenu {
-      transition: height 0.3s ease-in;
-      }
-      
-      .li_item {
-      width: 0;
-      transition: width 0.7s ease-in;
-      transition-delay: 0.4s;
-      }
-      
-      .first_dropmenu:hover, .sec_dropmenu:hover {
-      height: 240px;
-      }
-      
-      .sec_dropmenu:hover .li_item {
-      width: 180px;
-      }
-      
-      .first_dropmenu a, .sec_dropmenu a {
-      text-decoration: none;
-      color: white;
-      display: block;
-      height: 48.5px;
-      line-height: 48.5px;
-      text-align: center;
-      padding: 0 15px;
-      background-color: #474A46;
-      background-position: 50% 0;
-      font-size: 0.95em;
-      }
-      
-      .first_dropmenu a:hover, .sec_dropmenu a:hover {
-      transition: background 0.4s linear, color 0.5s linear, font-weight 0.3s ease-in;
-      background: radial-gradient(50% 0, rgba(0, 0, 0, .5), transparent 70%),
-      radial-gradient(50% 0, rgba(0, 0, 0, .5), transparent 70%), #3BD1AB;
-      background: -webkit-radial-gradient(50% 0, rgba(0, 0, 0, .5), transparent 70%),
-      -webkit-radial-gradient(50% 0, rgba(0, 0, 0, .5), transparent 70%), #3BD1AB;
-      background: -webkit-gradient(50% 0, rgba(0, 0, 0, .5), transparent 70%),
-      -webkit-gradient(50% 0, rgba(0, 0, 0, .5), transparent 70%), #3BD1AB;
-      background: -moz-radial-gradient(50% 0, rgba(0, 0, 0, .5), transparent 70%),
-      -moz-radial-gradient(50% 0, rgba(0, 0, 0, .5), transparent 70%), #3BD1AB;
-      background: -o-radial-gradient(50% 0, rgba(0, 0, 0, .5), transparent 70%),
-      -o-radial-gradient(50% 0, rgba(0, 0, 0, .5), transparent 70%), #3BD1AB;
-      background-size: 55% 6px, 100% 6px, cover;
-      background-position: 50% 75%, 0 0, 0 0;
-      background-repeat: no-repeat;
-      color: #474A46;
-      font-weight: bold;
-      }
-      
-      .container {
-      margin-top: 30px;
-      padding: 20px;
-      }
-      
-      .section {
-      background-color: #fff;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      border-radius: 5px;
-      display: flex;
-      flex-direction: column;
-      padding: 25px;
-      text-align: center;
-      margin-top:20px;
-      overflow: auto;
-      }
-      h1 {
-  letter-spacing: 1px;
-  margin: 0;
-}
-      h4 {
-  margin: 0;
-  text-transform: uppercase;
-}
-
-.inc-exp-container {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: var(--box-shadow);
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  margin: 20px 0;
-}
-
-.inc-exp-container > div {
-  flex: 1;
-  text-align: center;
-}
-
-.inc-exp-container > div:first-of-type {
-  border-right: 1px solid #dedede;
-}
-.money {
-  font-size: 20px;
-  letter-spacing: 1px;
-  margin: 5px 0;
-}
-
-.money.plus {
-  color: #2ecc71;
-}
-
-.money.minus {
-  color: #c0392b;
-}
-
-      .rectangle-box {
-      display: inline-block;
-      background-color: #f0f0f0;
-      border: 2px solid blue;
-      color: blue;
-      font-weight: bold;
-      padding: 20px;
-      cursor: pointer;
-      border-radius: 12px;
-      }
-      
-      .account-box, .budget-box, .expense-box {
-      display: none;
-      padding: 20px;
-      box-shadow: 2px 2px 2px #ccc;
-      }
-      
-      label {
-      }
-      
-      input[type=text], input[type=color], input[type=number], input[type=date], #note, select {
-      margin-bottom: 25px;
-      display: block;
-      height: 40px;
-      border: none;
-      border-bottom: 2px solid black;
-      width: 100%;
-      }
-      
-      button {
-      width: 100%;
-      height: 40px;
-      border-radius: 10px;
-      background: green;
-      font-size: 20px;
-      font-weight: bold;
-      font-family: Courier new, monospace;
-      color: white;
-      }
-      
-      button:hover {
-      background-color: #0056b3;
-      }
-      
-      .account-element {
-      margin: 10px 0;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      cursor: pointer;
-      }
-      
-      .account-element:hover {
-      background-color: #f0f0f0;
-      }
-      #accounts, #budgets {
-      margin-top:20px;
-      font-size:24px;
-      font-weight: bold;
-      font-family: Courier;
-      }
-      
-      /* Table style */
-      table {
-      width: 100%;
-      max-height: 400px;
-      } 
-      
-      thead {
-      background: #042159;
-      color: #fff;
-      }
-      
-      th, td {
-      text-align: left;
-      padding: 5px;
-      }
-      a {
-      text-decoration: underline;
-      cursor: pointer;
-      }
-     /* .content {
-          width: 80%;
-          margin: 0 auto;
-          background: #0869A6;
-          padding: 3%;
-      }*/
-      
-      .secondTitle {
-          text-align: left;
-          margin: 2% 0;
-          font-weight: 100;
-      }
-      
-      .form {
-          padding: 5px;
-      }
-      
-      .formLine {
-          display: flex;
-          align-items: center;
-          margin: 5px 0;
-      }
-    </style>
+    <title>Expense Tracker App</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" type="text/css" href="home.css">
 </head>
 <body>
 <nav>
@@ -267,7 +23,7 @@
         <a href="#" class="li_item">STATISTICS</a>
     </div>
 </nav>
-<div class="container">
+<div class="container-balance">
     <section id="total" class="section">
            <h4>Your Balance</h4>
     <h1 id="balance">R0.00</h1>
@@ -332,13 +88,13 @@
                     <option value="yearly">Yearly</option>
                 </select>
                 <label for="budgetAmount">Amount:</label>
-                <input type="number" id="budgetAmount"> <!-- Changed id to "budgetAmount" -->
+                <input type="number" id="budgetAmount"> 
                 <label for="note">Note:</label>
                 <textarea id="note"></textarea>
                 <button type="button" onclick="submitBudget()">Submit</button>
             </form>
         </div>
-        <div id="budgets" style="background-color:blue;"></div>
+        <div id="budgets" style="background-color:#3b5d69; color:white;"></div>
      </section>
      
      <section id="expense" class="section">
@@ -412,13 +168,18 @@
          </table>
          </section>
      </section>
-    <button id="download-pdf-button">Download Expense Table as PDF</button>
-
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-
-
+     <section id="graphs-section" class="section">
+        <h3>Statistics</h3>
+         <section class="rectangle-box" onclick="toggleGraphContainerVisibility()">
+             <p>GENERATE GRAPHS</p>
+         </section>
+         <section id="graphs-box" style="display: none;">
+                <canvas id="expenseIncomeChart" width="20" height="20"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="expenseBudgetChart" width="20" height="20"></canvas>
+         </section>
+     </section>
 <script>
 // Function to toggle visibility of the expense form
 function toggleExpenseFormVisibility() {
@@ -595,7 +356,7 @@ function submitBudget() {
     budgetElement.innerHTML = `
         <p><strong>Budget Name:</strong> ${budgetName}</p>
         <p><strong>Duration:</strong> ${duration}</p>
-        <p><strong>Amount:</strong> R${budgetAmount}</p>
+        <p><strong>Amount:</strong> ${budgetAmount}</p>
         <p><strong>Note:</strong> ${note}</p>
     `;
     budgetElement.onclick = function () {
@@ -709,43 +470,65 @@ function calculateMoneyAndBalance() {
     document.getElementById("balance").textContent = `R${balance}`;
 }
 
-// Add this code inside your <script> tag after the other JavaScript functions
+// Calculate and display the initial money and balance
+calculateMoneyAndBalance();
 
-// Function to generate and download the PDF
-function downloadExpenseTableAsPDF() {
-    // Create a new jsPDF instance
-    const doc = new jsPDF();
+ // graphs 
+ // Initialize Chart.js configuration
+Chart.defaults.global.defaultFontFamily = 'Arial';
 
-    // Define the columns and rows of the expense table
-    const columns = ["Type", "Category", "Name", "Date", "Amount"];
-    const data = expenses.map(expense => [expense.type, expense.category, expense.name, expense.date, expense.amount]);
+function updateGraphs() {
+    const expenses = JSON.parse(localStorage.getItem('expenses')) || [];
 
-    // Set the position and dimensions for the table
-    const startX = 10;
-    const startY = 10;
-    const tableWidth = 190;
-    const tableHeight = 20;
-    
-    // Create the table using autoTable plugin of jsPDF
-    doc.autoTable({
-        head: [columns],
-        body: data,
-        startX: startX,
-        startY: startY,
-        theme: 'grid',
-        styles: { fontSize: 10 },
-        tableWidth: tableWidth,
-        tableHeight: tableHeight,
-        columnStyles: { 0: { cellWidth: 30 }, 1: { cellWidth: 30 }, 2: { cellWidth: 50 }, 3: { cellWidth: 30 }, 4: { cellWidth: 20 } }
-    });
+    // Calculate total expenses
+    const totalExpenses = expenses.reduce((total, expense) => total + parseFloat(expense.amount), 0);
 
-    // Save the PDF with a specific name (e.g., 'expense_table.pdf')
-    doc.save('expense_table.pdf');
+    const income = parseFloat(localStorage.getItem('income')) || 0;
+    const budget = parseFloat(localStorage.getItem('budgetAmount')) || 0;
+
+    document.getElementById('displayIncome').textContent = 'R' + income.toFixed(2);
+    document.getElementById('displayBudget').textContent = 'R' + budget.toFixed(2);
+    document.getElementById('displayExpenses').textContent = 'R' + totalExpenses.toFixed(2);
+
+    // Update pie charts using Chart.js
+    const expenseIncomeData = [totalExpenses, income];
+    const expenseBudgetData = [totalExpenses, budget];
+
+    updateChart('expenseIncomeChart', expenseIncomeData, ['Expenses', 'Income'], ['red', 'green']);
+    updateChart('expenseBudgetChart', expenseBudgetData, ['Expenses', 'Budget'], ['red', 'blue']);
 }
 
-// Add a click event listener to the button
-const downloadButton = document.getElementById('download-pdf-button');
-downloadButton.addEventListener('click', downloadExpenseTableAsPDF);
+function updateChart(chartId, data, labels, backgroundColors) {
+    if (window.myCharts && window.myCharts[chartId]) {
+        window.myCharts[chartId].destroy();
+    }
+
+    if (!window.myCharts) {
+        window.myCharts = {};
+    }
+
+    const ctx = document.getElementById(chartId).getContext('2d');
+
+    window.myCharts[chartId] = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: backgroundColors,
+            }]
+        },
+    });
+}
+
+// Function to toggle visibility of the graph container
+function toggleGraphContainerVisibility() {
+    const graphsBox = document.querySelector('#graphs-box');
+    graphsBox.style.display = graphsBox.style.display === 'none' ? 'block' : 'none';
+}
+
+// Initial load
+updateGraphs();
 
 
 </script>
