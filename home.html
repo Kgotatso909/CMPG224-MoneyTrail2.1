@@ -61,8 +61,8 @@
                     <option value="Web Payment">Web Payment</option>
                     <option value="Voucher">Voucher</option>
                 </select>
-                <label for="budgetAmount">Initial Amount:</label>
-                <input type="number" id="budgetAmount"> <!-- Changed id to "budgetAmount" -->
+                <label for="incomeAmount">Initial Amount:</label>
+                <input type="number" id="incomeAmount"> 
                 <label for="color">Color:</label>
                 <input type="color" id="color">
                 <button type="button" onclick="submitAccount()">Submit</button>
@@ -168,18 +168,20 @@
          </table>
          </section>
      </section>
-     <section id="graphs-section" class="section">
-        <h3>Statistics</h3>
-         <section class="rectangle-box" onclick="toggleGraphContainerVisibility()">
-             <p>GENERATE GRAPHS</p>
-         </section>
-         <section id="graphs-box" style="display: none;">
-                <canvas id="expenseIncomeChart" width="20" height="20"></canvas>
-            </div>
-            <div class="chart-container">
-                <canvas id="expenseBudgetChart" width="20" height="20"></canvas>
-         </section>
+    <section id="graphs-section" class="section">
+       <div>
+        <h2>Graph:</h2>
+
+        <div class="chart-container">
+            <canvas id="expenseIncomeChart" width="400" height="200"></canvas>
+        </div>
+        <div id="graph-values">
+            <p>Income: <span id="displayIncome">0</span></p>
+            <p>Expenses: <span id="displayExpenses">0</span></p>
+        </div>
+    </div>
      </section>
+    </div>
 <script>
 // Function to toggle visibility of the expense form
 function toggleExpenseFormVisibility() {
@@ -211,7 +213,8 @@ function addExpense(e) {
     }
     document.getElementById("expForm").reset();
     showExpense();
-    calculateMoneyAndBalance(); // Add this line to update money-plus, money-minus, and balance
+    calculateMoneyAndBalance();
+    updateGraphs();
 }
 
 const showExpense = () => {
@@ -237,7 +240,8 @@ const deleteExpense = (id) => {
     }
     localStorage.setItem('expenses', JSON.stringify(expenses));
     showExpense();
-    calculateMoneyAndBalance(); // Add this line to update money-plus, money-minus, and balance
+    calculateMoneyAndBalance();
+    updateGraphs();
 };
 
 showExpense();
@@ -251,7 +255,7 @@ function toggleFormVisibility() {
 function submitAccount() {
     const accountName = document.getElementById("account-name").value;
     const bankNumber = document.getElementById("bank-number").value;
-    const initialAmount = document.getElementById("budgetAmount").value;
+    const initialAmount = document.getElementById("incomeAmount").value;
     const color = document.getElementById("color").value;
 
     const accountElement = document.createElement("div");
@@ -280,9 +284,10 @@ function submitAccount() {
 
     document.getElementById("account-name").value = "";
     document.getElementById("bank-number").value = "";
-    document.getElementById("budgetAmount").value = "";
+    document.getElementById("incomeAmount").value = "";
 
-    calculateMoneyAndBalance(); // Add this line to update money-plus, money-minus, and balance
+    calculateMoneyAndBalance();
+    updateGraphs();
 }
 
 function editAccount(accountElement) {
@@ -298,7 +303,8 @@ function editAccount(accountElement) {
 
     saveAccounts();
 
-    calculateMoneyAndBalance(); // Add this line to update money-plus, money-minus, and balance
+    calculateMoneyAndBalance();
+    updateGraphs();
 }
 
 function deleteAccount(accountElement) {
@@ -306,7 +312,8 @@ function deleteAccount(accountElement) {
     if (confirmDelete) {
         accountElement.remove();
         saveAccounts();
-        calculateMoneyAndBalance(); // Add this line to update money-plus, money-minus, and balance
+        calculateMoneyAndBalance();
+        updateGraphs();
     }
 }
 
@@ -356,7 +363,7 @@ function submitBudget() {
     budgetElement.innerHTML = `
         <p><strong>Budget Name:</strong> ${budgetName}</p>
         <p><strong>Duration:</strong> ${duration}</p>
-        <p><strong>Amount:</strong> ${budgetAmount}</p>
+        <p><strong>Amount:</strong> R${budgetAmount}</p>
         <p><strong>Note:</strong> ${note}</p>
     `;
     budgetElement.onclick = function () {
@@ -380,7 +387,8 @@ function submitBudget() {
     document.getElementById("budgetAmount").value = "";
     document.getElementById("note").value = "";
 
-    calculateMoneyAndBalance(); // Add this line to update money-plus, money-minus, and balance
+    calculateMoneyAndBalance();
+    updateGraphs();
 }
 
 function editBudget(budgetElement) {
@@ -398,7 +406,8 @@ function editBudget(budgetElement) {
 
     saveBudgets();
 
-    calculateMoneyAndBalance(); // Add this line to update money-plus, money-minus, and balance
+    calculateMoneyAndBalance();
+    updateGraphs();
 }
 
 function deleteBudget(budgetElement) {
@@ -406,7 +415,8 @@ function deleteBudget(budgetElement) {
     if (confirmDelete) {
         budgetElement.remove();
         saveBudgets();
-        calculateMoneyAndBalance(); // Add this line to update money-plus, money-minus, and balance
+        calculateMoneyAndBalance();
+        updateGraphs();
     }
 }
 
@@ -443,13 +453,7 @@ loadBudgets();
 // Function to calculate money-plus, money-minus, and balance
 function calculateMoneyAndBalance() {
     // Calculate the total initial amount from accounts
-    const accountElements = document.querySelectorAll(".account-element");
-    let totalInitialAmount = 0;
-    for (let i = 0; i < accountElements.length; i++) {
-        const initialAmountText = accountElements[i].querySelector("p:nth-child(3)").textContent;
-        const initialAmount = parseFloat(initialAmountText.substring(1)); // Remove the 'R' symbol and convert to a number
-        totalInitialAmount += initialAmount;
-    }
+    const totalInitialAmount = calculateTotalInitialAmount();
 
     // Calculate the total expenses
     let totalExpenses = 0;
@@ -470,67 +474,49 @@ function calculateMoneyAndBalance() {
     document.getElementById("balance").textContent = `R${balance}`;
 }
 
+function calculateTotalInitialAmount() {
+    const accountElements = document.querySelectorAll(".account-element");
+    let totalInitialAmount = 0;
+    for (let i = 0; i < accountElements.length; i++) {
+        const initialAmountText = accountElements[i].querySelector("p:nth-child(3)").textContent;
+        const initialAmount = parseFloat(initialAmountText.substring(1)); // Remove the 'R' symbol and convert to a number
+        totalInitialAmount += initialAmount;
+    }
+    return totalInitialAmount;
+}
+
 // Calculate and display the initial money and balance
 calculateMoneyAndBalance();
 
- // graphs 
- // Initialize Chart.js configuration
-Chart.defaults.global.defaultFontFamily = 'Arial';
-
+// Function to update graphs
 function updateGraphs() {
-    const expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+    const expensesTotal = expenses.reduce((total, expense) => total + parseFloat(expense.amount), 0);
+    const totalInitialAmount = calculateTotalInitialAmount();
 
-    // Calculate total expenses
-    const totalExpenses = expenses.reduce((total, expense) => total + parseFloat(expense.amount), 0);
+    const displayIncome = document.getElementById("displayIncome");
+    const displayExpenses = document.getElementById("displayExpenses");
 
-    const income = parseFloat(localStorage.getItem('income')) || 0;
-    const budget = parseFloat(localStorage.getItem('budgetAmount')) || 0;
+    displayIncome.textContent = totalInitialAmount.toFixed(2);
+    displayExpenses.textContent = expensesTotal.toFixed(2);
 
-    document.getElementById('displayIncome').textContent = 'R' + income.toFixed(2);
-    document.getElementById('displayBudget').textContent = 'R' + budget.toFixed(2);
-    document.getElementById('displayExpenses').textContent = 'R' + totalExpenses.toFixed(2);
-
-    // Update pie charts using Chart.js
-    const expenseIncomeData = [totalExpenses, income];
-    const expenseBudgetData = [totalExpenses, budget];
-
-    updateChart('expenseIncomeChart', expenseIncomeData, ['Expenses', 'Income'], ['red', 'green']);
-    updateChart('expenseBudgetChart', expenseBudgetData, ['Expenses', 'Budget'], ['red', 'blue']);
-}
-
-function updateChart(chartId, data, labels, backgroundColors) {
-    if (window.myCharts && window.myCharts[chartId]) {
-        window.myCharts[chartId].destroy();
-    }
-
-    if (!window.myCharts) {
-        window.myCharts = {};
-    }
-
-    const ctx = document.getElementById(chartId).getContext('2d');
-
-    window.myCharts[chartId] = new Chart(ctx, {
-        type: 'pie',
+    const ctxExpenseIncome = document.getElementById("expenseIncomeChart").getContext("2d");
+    const expenseIncomeChart = new Chart(ctxExpenseIncome, {
+        type: "pie",
         data: {
-            labels: labels,
-            datasets: [{
-                data: data,
-                backgroundColor: backgroundColors,
-            }]
+            labels: ["Income", "Expenses"],
+            datasets: [
+                {
+                    label: "Money",
+                    data: [totalInitialAmount, expensesTotal],
+                    backgroundColor: ["#2ecc71", "#e74c3c"],
+                },
+            ],
         },
     });
 }
 
-// Function to toggle visibility of the graph container
-function toggleGraphContainerVisibility() {
-    const graphsBox = document.querySelector('#graphs-box');
-    graphsBox.style.display = graphsBox.style.display === 'none' ? 'block' : 'none';
-}
-
-// Initial load
+// Call updateGraphs when the page loads to populate the graphs
 updateGraphs();
-
-
 </script>
 </body>
 </html>
