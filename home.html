@@ -1,541 +1,118 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense Tracker App</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" type="text/css" href="home.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MoneyTrail - Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
-<nav>
-    <div class="gradient_shadow"></div>
-    <div class="first_dropmenu">
-        <a href="#">MENU</a>
-        <a href="#">HOME</a>
-        <a href="#">PROFILE</a>
-        <a href="#">LOG OUT</a>
+    <header class="header">
+        <div class="zin">
+    <div id="menu">
+        <a href="#">Profile</a>
+        <a href="#">Home</a>
+        <a href="#">Records</a>
+        <a href="#">Planned Payments</a>
     </div>
-    <div class="sec_dropmenu">
-        <a href="#">ACCOUNTS</a>
-        <a href="#" class="li_item">RECORDS</a>
-        <a href="#" class="li_item">BUDGET</a>
-        <a href="#" class="li_item">STATISTICS</a>
-    </div>
-</nav>
-<main>
-
-<div class="container">
-    <section id="total" class="section">
-           <h4>Your Balance</h4>
-    <h1 id="balance">R0.00</h1>
-
-    <div class="inc-exp-container">
-        <div>
-            <h4>Income</h4>
-            <p id="money-plus" class="money plus">+R0.00</p>
+    <div class="btncon">
+        <div id="btn1" onclick="opn()">
+            <div class="d1"></div>
+            <div class="d1"></div>
+            <div class="d1"></div>
         </div>
-        <div>
-            <h4>Expense</h4>
-            <p id="money-minus" class="money minus">-R0.00</p>
+
+        <div id="btn2" onclick="cls()">
+            <div class="d1"></div>
+            <div class="d1"></div>
+            <div class="d1"></div>
+        </div>
+    </div>
+</div>
+
+<div id="fulscr"></div>
+    </header>
+
+    <section id="calenar" class="section">
+        <body>
+    <table>
+        <thead>
+            <tr>
+                <td onclick="decrementMonth()">«</td>
+                <th colspan="5" id="month-year"></th>
+                <td onclick="incrementMonth()">»</td>
+            </tr>
+        </thead>
+        <thead class="day">
+            <tr>
+                <th>Sun</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+            </tr>
+        </thead>
+        <tbody id="calendar-body">
+            <!-- JavaScript will populate this section -->
+        </tbody>
+    </table>
+    <div class="popup-container" id="popup-container">
+        <div class="popup" id="popup">
+            <h3>Edit Note</h3>
+            <textarea id="noteText"></textarea>
+            <button onclick="saveNote()">Save</button>
         </div>
     </div>
     </section>
-    
+
     <section id="expense" class="section">
-        <h3>List of all accounts</h3>
-        <div class="rectangle-box" onclick="toggleFormVisibility()">
-            <p>ADD ACCOUNT</p>
-        </div>
-        <div class="account-box">
-            <h3>ADD NEW ACCOUNT</h3>
-            <form id="expenseForm" onsubmit="updateGraphs()">
-                <label for="account-name">Account name</label>
-                <input type="text" id="account-name">
-                <label for="bank-number">Bank account number</label>
-                <input type="text" id="bank-number">
-                <label for="paymentType">Type:</label>
-                <select id="paymentType">
-                    <option value="Cash">Cash</option>
-                    <option value="saving account">Saving account</option>
-                    <option value="Debit Card">Debit Card</option>
-                    <option value="Credit Card">Credit Card</option>
-                    <option value="Web Payment">Web Payment</option>
-                    <option value="Voucher">Voucher</option>
-                </select>
-                <label for="incomeAmount">Initial Amount:</label>
-                <input type="number" id="incomeAmount"> 
-                <label for="color">Color:</label>
-                <input type="color" id="color">
-                <button type="button" onclick="submitAccount()">Submit</button>
-            </form>
-        </div>
-        <div id="accounts"></div>
+        <h3>List of all account</h3>
+            <div class="rectangle-box" onclick="openPopup()">
+        <p>ADD ACCOUNT</p>
     </section>
-    <section id="budget" class="section"> 
-        <h3>Budget Setting</h3> 
-        <div class="rectangle-box" onclick="toggleBudgetFormVisibility()">
-            <p>ADD BUDGET</p>
-        </div>
-        <div class="budget-box">
-            <h3>ADD NEW BUDGET</h3>
-            <form id="budgetForm">
-                <label for="budget-name">Budget Name</label>
-                <input type="text" id="budget-name">
-                <label for="duration">Duration:</label>
-                <select id="duration">
-                    <option value="daily">Daily</option>
-                    <option value="weekly">Weekly</option>
-                    <option value="monthly">Monthly</option>
-                    <option value="yearly">Yearly</option>
-                </select>
-                <label for="budgetAmount">Amount:</label>
-                <input type="number" id="budgetAmount"> 
-                <label for="note">Note:</label>
-                <textarea id="note"></textarea>
-                <button type="button" onclick="submitBudget()">Submit</button>
-            </form>
-        </div>
-        <div id="budgets" style="background-color:#3b5d69; color:white;"></div>
-     </section>
-     
-     <section id="expense" class="section">
-        <h3>Expense logging</h3>
-         <section class="rectangle-box" onclick="toggleExpenseFormVisibility()">
-          <p>ADD EXPENSE</p>
-         </section>
-         <section style="display: none" class="expense-box">
-         <h3 class="secondTitle" >Add a new item:</h3>
-         <div class="form">
-         <form id="expForm">
-         <div class="formLine">
-         <label for="type">Type:</label>
-         <select id="type">
-         <option value="chooseOne">Choose One</option>
-         <option value="card">Card</option>
-         <option value="cash">Cash</option>
-         <option value="web payment">Web Payment</option>
-         <option value="other">Other</option>
-         </select>
-         </div>
-         <div class="formLine">
-         <label for="name">Name:</label>
-         <input type="text" id="name">
-         </div>
-         <div class="formLine">
-         <label for="date">Date:</label>
-         <input type="date" id="date">
-         </div>
-         <div class="formLine">
-         <label for="amount">Amount:</label>
-         <input type="text" id="amount">
-         </div>
-         <div class="formLine">
-         <label for="category">Category:</label>
-         <select id="category">
-         <option value="chooseOne">Choose One</option>
-         <option value="education">Education</option>
-         <option value="Life & Entertainment">Life & Entertainment</option>
-         <option value="Food">Food</option>
-         <option value="household">Household</option>
-         <option value="transport">Transport</option>
-         <option value="financial expenses">Financial Expenses</option>
-         <option value="communication">Communication</option>
-         <option value="other">Other</option>
-         </select>
-         </div>
-         <button type="submit" class="buttonSave">Add a new expense</button>
-         </form>
-         </div>
-         </section>
-     </section>
-<aside>
-     <section id="display-table" class="section" >
-         <h3>Table of Expenses</h3>
-         <section class="content">
-         <table class="table">
-         <thead>
-         <tr>
-         <th>Type</th>
-         <th>Category</th>
-         <th>Name</th>
-         <th>Date</th>
-         <th>Amount</th>
-         <th>Options</th>
-         </tr>
-         </thead>
-         <tbody id="expenseTable">
-         
-         </tbody>
-         </table>
-         </section>
-         <button id="download-btn">Download File</button>
-     </section>
-    <section id="graphs-section" class="section">
-       <div>
-        <h2>Graph:</h2>
 
-        <div class="chart-container">
-            <canvas id="expenseIncomeChart" width="400" height="200"></canvas>
-        </div>
-        <div id="graph-values">
-            <p>Income: <span id="displayIncome">0</span></p>
-            <p>Expenses: <span id="displayExpenses">0</span></p>
-        </div>
+    <section id="budget" class="section">
+        <h2>Budget Setting</h2>
+        <!-- Budget Setting Section Content -->
+    </section>
+
+    <section id="overspending" class="section">
+        <h2>Overspending Identifier</h2>
+        <!-- Overspending Identifier Section Content -->
+    </section>
+
+    <section id="income-tracker" class="section">
+        <h2>Income tracking</h2>
+        <!-- Income tracking -->
+    </section>
+
+    <section id="reports" class="section">
+        <h2>Reports & Analytics</h2>
+        <!-- Reports & Analytics Section Content -->
+    </section>
+
+    <footer class="footer">
+        <!-- Footer Content -->
+    </footer><footer class="footer">
+  <div class="footer-content">
+    <div class="footer-section about">
+      <h3>About Us</h3>
+      <p>MoneyTrail is your trusted financial management and expense tracking platform. Our mission is to simplify your financial journey and help you achieve your financial goals.</p>
     </div>
-     </section>
+    <div class="footer-section contact">
+      <h3>Contact Us</h3>
+      <p>If you have any questions or need assistance, feel free to get in touch with us.</p>
+      <p>Email: service@moneytrail.com</p>
+      <p>Phone: 082-123-4567</p>
     </div>
-    </aside>
-</main>
-<script src="html2pdf.min.js"></script>
-<script>
-// Function to toggle visibility of the expense form
-function toggleExpenseFormVisibility() {
-    const expenseForm = document.querySelector(".expense-box");
-    expenseForm.style.display = expenseForm.style.display === "none" ? "block" : "none";
-}
+</footer>
 
-document.getElementById("expForm").addEventListener("submit", addExpense);
-const expenses = JSON.parse(localStorage.getItem('expenses')) || [];
-
-function addExpense(e) {
-    e.preventDefault();
-    let type = document.getElementById("type").value;
-    let name = document.getElementById("name").value;
-    let date = document.getElementById("date").value;
-    let category = document.getElementById("category").value;
-    let amount = document.getElementById("amount").value;
-    if (type !== 'chooseOne' && category !== 'chooseOne' && name.length > 0 && date.length > 0 && amount > 0) {
-        const expense = {
-            type,
-            category,
-            name,
-            date,
-            amount,
-            id: expenses.length > 0 ? expenses[expenses.length - 1].id + 1 : 1,
-        };
-        expenses.push(expense);
-        localStorage.setItem('expenses', JSON.stringify(expenses));
-
-        // Reload the page to generate the graph
-        location.reload();
-    }
-    document.getElementById("expForm").reset();
-    showExpense();
-    calculateMoneyAndBalance();
-}
-
-const showExpense = () => {
-    const expenseTable = document.getElementById("expenseTable");
-    expenseTable.innerHTML = '';
-    for (let i = 0; i < expenses.length; i++) {
-        expenseTable.innerHTML += `<tr>
-            <td>${expenses[i].type}</td>
-            <td>${expenses[i].category}</td>
-            <td>${expenses[i].name}</td>
-            <td>${expenses[i].date}</td>
-            <td>${expenses[i].amount}</td>
-            <td><a class="deleteButton" onclick="deleteExpense(${expenses[i].id})">Delete</a></td>
-        </tr>`;
-    }
-};
-
-const deleteExpense = (id) => {
-    for (let i = 0; i < expenses.length; i++) {
-        if (expenses[i].id === id) {
-            expenses.splice(i, 1);
-        }
-        location.reload();
-    }
-    localStorage.setItem('expenses', JSON.stringify(expenses));
-    showExpense();
-    calculateMoneyAndBalance();
-    updateGraphs();
-};
-
-showExpense();
-
-// Function to toggle visibility of the account form
-function toggleFormVisibility() {
-    const accountForm = document.querySelector(".account-box");
-    accountForm.style.display = accountForm.style.display === "none" ? "block" : "none";
-}
-
-function submitAccount() {
-    const accountName = document.getElementById("account-name").value;
-    const bankNumber = document.getElementById("bank-number").value;
-    const initialAmount = document.getElementById("incomeAmount").value;
-    const color = document.getElementById("color").value;
-
-    const accountElement = document.createElement("div");
-    accountElement.classList.add("account-element");
-    accountElement.style.backgroundColor = color;
-    accountElement.innerHTML = `
-        <p>${accountName}</p>
-        <p>${bankNumber}</p>
-        <p>R${initialAmount}</p>
-    `;
-    accountElement.onclick = function () {
-        const action = prompt("Choose an action: '1. edit' or '2. delete'");
-        if (action === "1") {
-            editAccount(accountElement);
-        } else if (action === "2") {
-            deleteAccount(accountElement);
-        } else {
-            alert("Invalid action");
-        }
-    };
-
-    const accounts = document.getElementById("accounts");
-    accounts.appendChild(accountElement);
-
-    saveAccounts();
-
-    document.getElementById("account-name").value = "";
-    document.getElementById("bank-number").value = "";
-    document.getElementById("incomeAmount").value = "";
-
-    calculateMoneyAndBalance();
-    location.reload();
-}
-
-function editAccount(accountElement) {
-    const accountName = prompt("Enter new account name");
-    const bankNumber = prompt("Enter new bank account number");
-    const initialAmount = prompt("Enter new initial amount");
-
-    accountElement.innerHTML = `
-        <p>${accountName}</p>
-        <p>${bankNumber}</p>
-        <p>R${initialAmount}</p>
-    `;
-
-    saveAccounts();
-
-    calculateMoneyAndBalance();
-    location.reload();
-
-}
-
-function deleteAccount(accountElement) {
-    const confirmDelete = confirm("Are you sure you want to delete this account?");
-    if (confirmDelete) {
-        accountElement.remove();
-        saveAccounts();
-        calculateMoneyAndBalance();
-       location.reload();
-    }
-}
-
-function saveAccounts() {
-    const accountsElement = document.getElementById("accounts");
-    const accountsData = accountsElement.innerHTML;
-    localStorage.setItem('accountsData', accountsData);
-}
-
-function loadAccounts() {
-    const accountsData = localStorage.getItem('accountsData');
-    if (accountsData) {
-        const accountsElement = document.getElementById("accounts");
-        accountsElement.innerHTML = accountsData;
-
-        const accountElements = accountsElement.querySelectorAll(".account-element");
-        accountElements.forEach(accountElement => {
-            accountElement.onclick = function () {
-                const action = prompt("Choose an action: '1. edit' or '2. delete'");
-                if (action === "1") {
-                    editAccount(accountElement);
-                } else if (action === "2") {
-                    deleteAccount(accountElement);
-                } else {
-                    alert("Invalid action");
-                }
-            };
-        });
-    }
-}
-
-loadAccounts();
-
-function toggleBudgetFormVisibility() {
-    const budgetForm = document.querySelector(".budget-box");
-    budgetForm.style.display = budgetForm.style.display === "none" ? "block" : "none";
-}
-
-function submitBudget() {
-    const budgetName = document.getElementById("budget-name").value;
-    const duration = document.getElementById("duration").value;
-    const budgetAmount = document.getElementById("budgetAmount").value;
-    const note = document.getElementById("note").value;
-
-    const budgetElement = document.createElement("div");
-    budgetElement.classList.add("budget-element");
-    budgetElement.innerHTML = `
-        <p><strong>Budget Name:</strong> ${budgetName}</p>
-        <p><strong>Duration:</strong> ${duration}</p>
-        <p><strong>Amount:</strong> R${budgetAmount}</p>
-        <p><strong>Note:</strong> ${note}</p>
-    `;
-    budgetElement.onclick = function () {
-        const action = prompt("Choose an action: '1. edit' or '2. delete'");
-        if (action === "1") {
-            editBudget(budgetElement);
-        } else if (action === "2") {
-            deleteBudget(budgetElement);
-        } else {
-            alert("Invalid action");
-        }
-    };
-
-    const budgets = document.getElementById("budgets");
-    budgets.appendChild(budgetElement);
-
-    saveBudgets();
-
-    document.getElementById("budget-name").value = "";
-    document.getElementById("duration").value = "daily";
-    document.getElementById("budgetAmount").value = "";
-    document.getElementById("note").value = "";
-
-    calculateMoneyAndBalance();
-    updateGraphs();
-}
-
-function editBudget(budgetElement) {
-    const budgetName = prompt("Enter new budget name");
-    const duration = prompt("Enter new duration");
-    const budgetAmount = prompt("Enter new amount");
-    const note = prompt("Enter new note");
-
-    budgetElement.innerHTML = `
-        <p><strong>Budget Name:</strong> ${budgetName}</p>
-        <p><strong>Duration:</strong> ${duration}</p>
-        <p><strong>Amount:</strong> R${budgetAmount}</p>
-        <p><strong>Note:</strong> ${note}</p>
-    `;
-
-    saveBudgets();
-
-    calculateMoneyAndBalance();
-    updateGraphs();
-}
-
-function deleteBudget(budgetElement) {
-    const confirmDelete = confirm("Are you sure you want to delete this budget?");
-    if (confirmDelete) {
-        budgetElement.remove();
-        saveBudgets();
-        calculateMoneyAndBalance();
-        updateGraphs();
-    }
-}
-
-function saveBudgets() {
-    const budgetsElement = document.getElementById("budgets");
-    const budgetsData = budgetsElement.innerHTML;
-    localStorage.setItem('budgetsData', budgetsData);
-}
-
-function loadBudgets() {
-    const budgetsData = localStorage.getItem('budgetsData');
-    if (budgetsData) {
-        const budgetsElement = document.getElementById("budgets");
-        budgetsElement.innerHTML = budgetsData;
-
-        const budgetElements = budgetsElement.querySelectorAll(".budget-element");
-        budgetElements.forEach(budgetElement => {
-            budgetElement.onclick = function () {
-                const action = prompt("Choose an action: '1. edit' or '2. delete'");
-                if (action === "1") {
-                    editBudget(budgetElement);
-                } else if (action === "2") {
-                    deleteBudget(budgetElement);
-                } else {
-                    alert("Invalid action");
-                }
-            };
-        });
-    }
-}
-
-loadBudgets();
-
-// Function to calculate money-plus, money-minus, and balance
-function calculateMoneyAndBalance() {
-    // Calculate the total initial amount from accounts
-    const totalInitialAmount = calculateTotalInitialAmount();
-
-    // Calculate the total expenses
-    let totalExpenses = 0;
-    for (let i = 0; i < expenses.length; i++) {
-        totalExpenses += parseFloat(expenses[i].amount);
-    }
-
-    // Calculate money-plus and money-minus
-    const moneyPlus = totalInitialAmount.toFixed(2);
-    const moneyMinus = totalExpenses.toFixed(2);
-
-    // Calculate balance
-    const balance = (totalInitialAmount - totalExpenses).toFixed(2);
-
-    // Update the values in the HTML
-    document.getElementById("money-plus").textContent = `+R${moneyPlus}`;
-    document.getElementById("money-minus").textContent = `-R${moneyMinus}`;
-    document.getElementById("balance").textContent = `R${balance}`;
-}
-
-function calculateTotalInitialAmount() {
-    const accountElements = document.querySelectorAll(".account-element");
-    let totalInitialAmount = 0;
-    for (let i = 0; i < accountElements.length; i++) {
-        const initialAmountText = accountElements[i].querySelector("p:nth-child(3)").textContent;
-        const initialAmount = parseFloat(initialAmountText.substring(1)); // Remove the 'R' symbol and convert to a number
-        totalInitialAmount += initialAmount;
-    }
-    return totalInitialAmount;
-}
-
-// Calculate and display the initial money and balance
-calculateMoneyAndBalance();
-
-// Function to update graphs
-function updateGraphs() {
-    const expensesTotal = expenses.reduce((total, expense) => total + parseFloat(expense.amount), 0);
-    const totalInitialAmount = calculateTotalInitialAmount();
-
-    const displayIncome = document.getElementById("displayIncome");
-    const displayExpenses = document.getElementById("displayExpenses");
-
-    displayIncome.textContent = totalInitialAmount.toFixed(2);
-    displayExpenses.textContent = expensesTotal.toFixed(2);
-
-    const ctxExpenseIncome = document.getElementById("expenseIncomeChart").getContext("2d");
-    const expenseIncomeChart = new Chart(ctxExpenseIncome, {
-        type: "doughnut",
-        data: {
-            labels: ["Income", "Expenses"],
-            datasets: [
-                {
-                    label: "Money",
-                    data: [totalInitialAmount, expensesTotal],
-                    backgroundColor: ["#2ecc71", "#e74c3c"],
-                },
-            ],
-        },
-    });
-}
-
-// Call updateGraphs when the page loads to populate the graphs
-updateGraphs();
-
- document.getElementById('download-button').addEventListener('click', function() {
-      const element = document.querySelector('body');
-      html2pdf()
-        .from(element)
-        .save();
-    });
-
-</script>
+    <script src="js/main.js"></script>
+    <script src="js/newaccount.js">
+    </script>
 </body>
 </html>
