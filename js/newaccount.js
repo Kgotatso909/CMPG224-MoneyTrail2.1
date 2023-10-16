@@ -4,73 +4,55 @@
 
         // Create the content for the pop-up window
         const popupContent = `
-                     <!DOCTYPE html>
-<html>
-<head>
-<title>Add new account</title>
-<style type="text/css">
-@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Young+Serif&display=swap');
-body {
-  margin:25px;
-}
+            <html>
+            <head>
+                <title>Add Account</title>
+                <link rel="stylesheet" href="css/home.css">
+            </head>
+            <body>
+ <div id="container">
+    <h2>Add Expense/Income</h2>
+    <form id="expenseForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" placeholder="Name">
 
-h3 {
- text-align:center;
- font-family: 'Young Serif', serif;
-}
-.account-box {
- padding:20px;
- box-shadow: 2px 2px 2px #ccc;
-}
-label {
-}
-input[type=text], input[type=color],input[type=number], select{
- margin-bottom: 25px;
- display:block;
- height:40px;
- border:none;
- border-bottom: 2px solid black;
- width:100%;
-}
+        <label for="category">Category:</label>
+        <select id="category">
+            <option value="Food & Drinks">Food & Drinks</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Housing">Housing</option>
+            <option value="Transportation">Transportation</option>
+            <option value="Life & Entertainment">Life & Entertainment</option>
+            <option value="Investment">Investment</option>
+            <option value="Others">Others</option>
+        </select>
 
-button {
-  width:100%;
-  height:40px;
-  border-radius:10px;
-  background:green;
-  font-size:20px;
-  font-weight:bold;
-  font-family:Courier new,monospace;
-  color:white;
-}
-</style>
-</head>
-<body>
-   <div class="account-box">
-      <h3>ADD NEW ACCOUNT</h3>
-      <label for="account-name">Account name</label>
-      <input type="text" id="account-name"  >
-      <label for="bank-number">Bank account number</label>
-      <input type="text" id="bank-number">
-   
-      <label for="paymentType">Type:</label> 
-      <select id="paymentType"> 
-      <option value="Cash">Cash</option> 
-      <option value="Debit Card">Debit Card</option> 
-      <option value="Credit Card">Credit Card</option> 
-      <option value="Web Payment">Web Payment</option> 
-      <option value="Voucher">Voucher</option> 
-      </select>
-      
-      <label id="initial-amount" >initial value</label>
-      <input type="number" >
-      <label for="color">color</label>
-      <input type="color" >
-      
+        <label for="paymentType">Payment Type:</label>
+        <select id="paymentType">
+            <option value="Cash">Cash</option>
+            <option value="Debit Card">Debit Card</option>
+            <option value="Credit Card">Credit Card</option>
+            <option value="Web Payment">Web Payment</option>
+            <option value="Voucher">Voucher</option>
+        </select>
+
+        <label for="note">Note:</label>
+        <input type="text" id="note" placeholder="Note">
+
+        <label for="account">Account:</label>
+        <input type="text" id="account" placeholder="Account">
+
+        <label for="type">Type:</label>
+        <select id="type">
+            <option value="Income">Income</option>
+            <option value="Expense">Expense</option>
+        </select>
+        <br />
         <button onclick="submitAccount()">Submit</button>
-   </div>
-</body>
-</html>
+    </form>
+    </div>
+            </body>
+            </html>
         `;
 
         // Write the content to the pop-up window
@@ -80,24 +62,12 @@ button {
     }
 
     function submitAccount() {
-        const accountName = document.getElementById("account-name").value;
-    const bankNumber = document.getElementById("bank-number").value;
-    const initialAmount = document.querySelector("input[type=number]").value;
-    const color = document.querySelector("input[type=color]").value;
+        // Retrieve the account number from the pop-up window
+        const accountNumber = window.opener.document.getElementById('accountNumber').value;
 
-    // Create a new account element
-    const accountElement = document.createElement("div");
-    accountElement.classList.add("rectangle-box");
-    accountElement.style.backgroundColor = color;
-    accountElement.innerHTML = `
-        <p>${accountName}</p>
-        <p>Account Number: ${bankNumber}</p>
-        <p>Initial Amount: ${initialAmount}</p>
-    `;
-
-    // Append the new account element to the "accounts" div
-    const accountsDiv = document.getElementById("accounts");
-    accountsDiv.appendChild(accountElement);
+        // You can now handle the submitted account number as needed
+        // For example, you can update your application with the entered account number.
+        console.log('Account Number:', accountNumber);
 
         // Close the pop-up window
         window.close();
