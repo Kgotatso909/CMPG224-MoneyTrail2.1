@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense Tracker App</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" type="text/css" href="home.css">
 </head>
 <body>
@@ -23,7 +24,9 @@
         <a href="#" class="li_item">STATISTICS</a>
     </div>
 </nav>
-<div class="container-balance">
+<main>
+
+<div class="container">
     <section id="total" class="section">
            <h4>Your Balance</h4>
     <h1 id="balance">R0.00</h1>
@@ -47,7 +50,7 @@
         </div>
         <div class="account-box">
             <h3>ADD NEW ACCOUNT</h3>
-            <form id="expenseForm">
+            <form id="expenseForm" onsubmit="updateGraphs()">
                 <label for="account-name">Account name</label>
                 <input type="text" id="account-name">
                 <label for="bank-number">Bank account number</label>
@@ -147,7 +150,7 @@
          </div>
          </section>
      </section>
-     
+<aside>
      <section id="display-table" class="section" >
          <h3>Table of Expenses</h3>
          <section class="content">
@@ -167,6 +170,7 @@
          </tbody>
          </table>
          </section>
+         <button id="download-btn">Download File</button>
      </section>
     <section id="graphs-section" class="section">
        <div>
@@ -182,6 +186,9 @@
     </div>
      </section>
     </div>
+    </aside>
+</main>
+<script src="html2pdf.min.js"></script>
 <script>
 // Function to toggle visibility of the expense form
 function toggleExpenseFormVisibility() {
@@ -210,11 +217,13 @@ function addExpense(e) {
         };
         expenses.push(expense);
         localStorage.setItem('expenses', JSON.stringify(expenses));
+
+        // Reload the page to generate the graph
+        location.reload();
     }
     document.getElementById("expForm").reset();
     showExpense();
     calculateMoneyAndBalance();
-    updateGraphs();
 }
 
 const showExpense = () => {
@@ -237,6 +246,7 @@ const deleteExpense = (id) => {
         if (expenses[i].id === id) {
             expenses.splice(i, 1);
         }
+        location.reload();
     }
     localStorage.setItem('expenses', JSON.stringify(expenses));
     showExpense();
@@ -287,7 +297,7 @@ function submitAccount() {
     document.getElementById("incomeAmount").value = "";
 
     calculateMoneyAndBalance();
-    updateGraphs();
+    location.reload();
 }
 
 function editAccount(accountElement) {
@@ -304,7 +314,8 @@ function editAccount(accountElement) {
     saveAccounts();
 
     calculateMoneyAndBalance();
-    updateGraphs();
+    location.reload();
+
 }
 
 function deleteAccount(accountElement) {
@@ -313,7 +324,7 @@ function deleteAccount(accountElement) {
         accountElement.remove();
         saveAccounts();
         calculateMoneyAndBalance();
-        updateGraphs();
+       location.reload();
     }
 }
 
@@ -501,7 +512,7 @@ function updateGraphs() {
 
     const ctxExpenseIncome = document.getElementById("expenseIncomeChart").getContext("2d");
     const expenseIncomeChart = new Chart(ctxExpenseIncome, {
-        type: "pie",
+        type: "doughnut",
         data: {
             labels: ["Income", "Expenses"],
             datasets: [
@@ -517,6 +528,14 @@ function updateGraphs() {
 
 // Call updateGraphs when the page loads to populate the graphs
 updateGraphs();
+
+ document.getElementById('download-button').addEventListener('click', function() {
+      const element = document.querySelector('body');
+      html2pdf()
+        .from(element)
+        .save();
+    });
+
 </script>
 </body>
 </html>
