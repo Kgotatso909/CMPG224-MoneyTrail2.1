@@ -1,7 +1,18 @@
 body {
       margin: 0;
+      background: black;
       }
-      
+
+       body.dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+        
+      .container {
+      margin-top: 30px;
+      padding: 20px;
+
+      }
       nav {
       position: fixed;
       top: 0;
@@ -81,15 +92,12 @@ body {
       font-weight: bold;
       }
       
-      .container-balance {
-      margin-top: 30px;
-      padding: 20px;
-      }
+      
       
       .section {
       background-color: #fff;
       padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      box-shadow: 2px 2px #2ad2f7;
       border-radius: 5px;
       display: flex;
       flex-direction: column;
@@ -97,6 +105,8 @@ body {
       text-align: center;
       margin-top:20px;
       overflow: auto;
+      background: black;
+      color: #2ad2f7;
       }
       h1 {
   letter-spacing: 1px;
@@ -242,3 +252,22 @@ body {
           align-items: center;
           margin: 5px 0;
       }
+
+       #container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        input, button {
+            margin: 5px;
+        }
+        .chart-container {
+            display: inline-block;
+            width: 25%; /* Adjust the width to your preference */
+            margin: 5px;
+        }
+
+        #download-btn {
+          margin-top: 50px;
+          width: 50%;
+          transform: translateX(50%);
+        }
