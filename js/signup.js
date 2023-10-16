@@ -39,8 +39,4 @@ document.querySelector("#signup-form").addEventListener("submit", function(event
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return emailPattern.test(email);
         }
-document.querySelector("#sign-in-htm").addEventListener("submit", function(event) {
-     window.location.href = "home.html";
-
-}
         
